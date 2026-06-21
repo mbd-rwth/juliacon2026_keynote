@@ -21,11 +21,16 @@ jobs:
         id: check
         run: |
           BEFORE="${{ github.event.before }}"
-          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || \
-             git diff --name-only $BEFORE ${{ github.sha }} | grep -qE '^(Dockerfile|environment\.yml)$'; then
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || \
+             [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
           else
-            echo "changed=false" >> $GITHUB_OUTPUT
+            git fetch --depth=1 origin $BEFORE
+            if git diff --name-only $BEFORE ${{ github.sha }} | grep -qE '^(Dockerfile|environment\.yml)$'; then
+              echo "changed=true" >> $GITHUB_OUTPUT
+            else
+              echo "changed=false" >> $GITHUB_OUTPUT
+            fi
           fi
 
       - if: steps.check.outputs.changed == 'true'
