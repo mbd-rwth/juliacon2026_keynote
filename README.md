@@ -1,6 +1,6 @@
 # Sustainability in Computational Engineering Science
 
-**Julia Kowalski** · MBD, RWTH Aachen University · JuliaCon 2026
+**Julia Kowalski** · MBD, RWTH Aachen University 
 
 [![View Slides](https://img.shields.io/badge/view%20slides-here-blueviolet)](https://mbd-rwth.github.io/juliacon2026_keynote)
 
